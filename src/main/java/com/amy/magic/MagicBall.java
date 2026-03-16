@@ -1,13 +1,25 @@
+package com.amy.magic;
+
 import java.util.Scanner;
 import java.util.Random;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class MagicBall {
-    public static void main (String[] args){
-        run();
+@SpringBootApplication
+public class MagicBall implements CommandLineRunner {
+
+    private JdbcAnswersDao answerDao;
+    public MagicBall (JdbcAnswersDao answerDao){
+        this.answerDao = answerDao;
     }
 
-        public static void run() {
+    public static void main (String[] args){
+        SpringApplication.run(MagicBall.class, args);
+    }
+        @Override
+        public  void run( String... args) {
             Scanner scanner = new Scanner(System.in);
             Random random = new Random();
 
