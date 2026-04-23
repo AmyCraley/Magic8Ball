@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Magic 8 Ball</title>
+</head>
+<body>
+
+<h1>Magic 8 Ball</h1>
+
+<label for="category">Choose a category</label>
+<select id="category">
+    <option value="classic">Classic</option>
+    <option value="coding">Coding</option>
+    <option value="artist">Artist</option>
+</select>
+
+<button onclick="getAnswer()">Ask</button>
+
+<p id="result"></p>
+
+<script>
+    function getAnswer() {
+        const category = document.getElementById("category").value;
+        fetch('/api/answer/${category}')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = data.answer;
+    });
+    }
+</script>
+</body>
+</html>

@@ -4,9 +4,9 @@ import org.springframework.web.bind.annotation.*;
 import com.amy.magic.JdbcAnswersDao;
 
 @RestController
-@RequestMapping( path = "/api/answers")
+@RequestMapping( path = "/api/answer")
 public class AnswersController {
-;;
+    
     private final JdbcAnswersDao answersDao;
 
     public AnswersController(JdbcAnswersDao answersDao) {
@@ -16,13 +16,23 @@ public class AnswersController {
     // Example: http://localhost:8080/api/answers/1
     @GetMapping("/{category}")
 
-    public Answer getAnswer(@PathVariable int category) {
-        Answer answer = answersDao.getRandomAnswerByCategory(category);
+    public Answer getAnswer(@PathVariable String category) {
+        int categoryId;
 
-        if (answer == null) {
-            throw new RuntimeException("No answers found for category " + category);
+        switch (category.toLowerCase()) {
+            case "classic":
+                categoryId = 1;
+                break;
+            case "coding":
+                categoryId = 2;
+                break;
+            case "artist":
+                categoryId = 3;
+                break;
+            default:
+                throw new RuntimeException("Category does not exist");
         }
-        return answer;
-    }
 
+        return answersDao.getRandomAnswerByCategory(categoryId);
+    }
 }
