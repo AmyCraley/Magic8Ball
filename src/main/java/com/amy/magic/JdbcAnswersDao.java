@@ -21,7 +21,7 @@ public class JdbcAnswersDao {
     public Answer getRandomAnswerByCategory(int category) {
 
         ArrayList<Answer> answers = new ArrayList<>();
-        String sql = "SELECT * FROM magic8Ball WHERE category = ?";
+        String sql = "SELECT * FROM magic8Ball WHERE category_id = ?";
 
 
         try {

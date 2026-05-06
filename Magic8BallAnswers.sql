@@ -1,0 +1,1 @@
+SELECT * from magic8ball;

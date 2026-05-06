@@ -8,31 +8,27 @@ import com.amy.magic.JdbcAnswersDao;
 public class AnswersController {
     
     private final JdbcAnswersDao answersDao;
+    private final JdbcCategoryDao categoryDao;
 
-    public AnswersController(JdbcAnswersDao answersDao) {
+    public AnswersController(JdbcAnswersDao answersDao, JdbcCategoryDao categoryDao) {
         this.answersDao = answersDao;
+        this.categoryDao = categoryDao;
     }
 
-    // Example: http://localhost:8080/api/answers/1
+    // Example: http://localhost:8080/api/answers/classic
     @GetMapping("/{category}")
+    public String test(@PathVariable String category) {
+        return "OK: " + category;
 
-    public Answer getAnswer(@PathVariable String category) {
-        int categoryId;
+    //public Answer getAnswer(@PathVariable String category) {
 
-        switch (category.toLowerCase()) {
-            case "classic":
-                categoryId = 1;
-                break;
-            case "coding":
-                categoryId = 2;
-                break;
-            case "artist":
-                categoryId = 3;
-                break;
-            default:
-                throw new RuntimeException("Category does not exist");
-        }
+//        System.out.println("CATEGORY REQUESTED: " + category);
+//
+//        int categoryId = categoryDao.getCategoryIdByTitle(category);
+//
+//        System.out.println("CATEGORY ID FOUND: " + categoryId);
+//
+//        return answersDao.getRandomAnswerByCategory(categoryId);
 
-        return answersDao.getRandomAnswerByCategory(categoryId);
     }
 }
