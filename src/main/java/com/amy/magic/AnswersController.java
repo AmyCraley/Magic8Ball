@@ -17,18 +17,10 @@ public class AnswersController {
 
     // Example: http://localhost:8080/api/answers/classic
     @GetMapping("/{category}")
-    public String test(@PathVariable String category) {
-        return "OK: " + category;
+    public Answer getAnswer(@PathVariable String category) {
 
-    //public Answer getAnswer(@PathVariable String category) {
-
-//        System.out.println("CATEGORY REQUESTED: " + category);
-//
-//        int categoryId = categoryDao.getCategoryIdByTitle(category);
-//
-//        System.out.println("CATEGORY ID FOUND: " + categoryId);
-//
-//        return answersDao.getRandomAnswerByCategory(categoryId);
+     int categoryId = categoryDao.getCategoryIdByTitle(category);
+ return answersDao.getRandomAnswerByCategory(categoryId);
 
     }
 }

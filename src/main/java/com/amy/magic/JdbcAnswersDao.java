@@ -1,12 +1,11 @@
-package com.amy.magic;// package ?
-
+package com.amy.magic;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Random;
+
 
 @Component
 public class JdbcAnswersDao {
@@ -18,40 +17,37 @@ public class JdbcAnswersDao {
     }
 
 
-    public Answer getRandomAnswerByCategory(int category) {
+    public Answer getRandomAnswerByCategory(int categoryId) {
 
         ArrayList<Answer> answers = new ArrayList<>();
-        String sql = "SELECT * FROM magic8Ball WHERE category_id = ?";
+        String sql = """
+                SELECT id, answer, category_id
+                FROM magic8ball
+                WHERE category_id = ?
+                ORDER BY RANDOM()
+                LIMIT 1
+                """;
 
 
-        try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category);
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, categoryId);
 
-            while (results.next()) {
-                Answer answer = mapRowToAnswer(results);
-                answers.add(answer);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (results.next()) {
+            return mapRowToAnswer(results);
         }
 
-        if (answers.isEmpty()) {
-            return null;
+        return null;
+    }
 
+        private Answer mapRowToAnswer (SqlRowSet rowSet){
+            Answer answer = new Answer();
+
+            answer.setId(rowSet.getInt("id"));
+            answer.setAnswer(rowSet.getString("answers"));
+            answer.setCategoryId(rowSet.getInt("category_id"));
+
+            return answer;
         }
-
-
-        Random random = new Random();
-        return answers.get(random.nextInt(answers.size()));
-
     }
-    private Answer mapRowToAnswer(SqlRowSet rs) {
-        Answer answer = new Answer();
-        answer.setAnswer(rs.getString("answers"));
-        answer.setCategory(rs.getInt("category"));
-        return answer;
-    }
-}
 
 
 

@@ -1,6 +1,7 @@
 package com.amy.magic;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,8 +14,17 @@ public class JdbcCategoryDao {
     }
 
     public int getCategoryIdByTitle(String title) {
-        String sql = "SELECT id FROM categories WHERE LOWER(title) = LOWER(?)";
-        return jdbcTemplate.queryForObject(sql, Integer );
+        String sql = """
+                SELECT id
+                FROM categories
+                WHERE LOWER(title) = LOWER(?)
+                """;
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, title);
+
+        if(results.next()) {
+            return results.getInt("id");
+        }
+throw new RuntimeException("Category not found");
     }
 
 }
