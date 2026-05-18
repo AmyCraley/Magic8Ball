@@ -42,7 +42,7 @@ public class JdbcAnswersDao {
             Answer answer = new Answer();
 
             answer.setId(rowSet.getInt("id"));
-            answer.setAnswer(rowSet.getString("answers"));
+            answer.setAnswer(rowSet.getString("answer"));
             answer.setCategoryId(rowSet.getInt("category_id"));
 
             return answer;
